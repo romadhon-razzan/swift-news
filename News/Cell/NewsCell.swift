@@ -8,6 +8,18 @@
 
 import UIKit
 class NewsCell: UICollectionViewCell {
+    let TYPE_OPTIONS = "OPTIONS"
+    let TYPE_COMMENT = "COMMENT"
+    let TYPE_SHARE = "SHARE"
+
+    var btnTapAction : ((_ type: String)->())?
+    
+    lazy var width: NSLayoutConstraint = {
+        let width = contentView.widthAnchor.constraint(equalToConstant: bounds.size.width)
+        width.isActive = true
+        return width
+    }()
+
     let profileImageButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor.darkGray
@@ -89,7 +101,7 @@ class NewsCell: UICollectionViewCell {
         return button
     }()
    
-    let commentButton: UIButton = {
+    @objc let commentButton: UIButton = {
         let button = UIButton()
         button.setTitle("10 Comment", for:  UIControl.State.normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
@@ -109,29 +121,35 @@ class NewsCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         addViews()
+    }
+
+    override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
+        width.constant = bounds.size.width
+        return contentView.systemLayoutSizeFitting(CGSize(width: targetSize.width, height: 1))
     }
 
     func addViews(){
         backgroundColor = UIColor.white
 
-        addSubview(profileImageButton)
-        addSubview(nameLabel)
-        addSubview(distanceLabel)
-        addSubview(optionsButton)
-        addSubview(showCaseImageView)
-        addSubview(title)
-        addSubview(content)
-        addSubview(topSeparatorView)
+        contentView.addSubview(profileImageButton)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(distanceLabel)
+        contentView.addSubview(optionsButton)
+        contentView.addSubview(showCaseImageView)
+        contentView.addSubview(title)
+        contentView.addSubview(content)
+        contentView.addSubview(topSeparatorView)
 
         // Stack View
-        addSubview(shareButton)
-        addSubview(commentButton)
-        addSubview(stackView)
+        contentView.addSubview(shareButton)
+        contentView.addSubview(commentButton)
+        contentView.addSubview(stackView)
 
 
-        profileImageButton.leftAnchor.constraint(equalTo: leftAnchor, constant: 5).isActive = true
-        profileImageButton.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
+        profileImageButton.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 5).isActive = true
+        profileImageButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
         profileImageButton.heightAnchor.constraint(equalToConstant: 36).isActive = true
         profileImageButton.widthAnchor.constraint(equalToConstant: 36).isActive = true
 
@@ -143,10 +161,11 @@ class NewsCell: UICollectionViewCell {
         distanceLabel.centerYAnchor.constraint(equalTo: profileImageButton.centerYAnchor, constant: 8).isActive = true
         
         // Distance depeneded on the priceLabel and distance Label
-        optionsButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -5).isActive = true
-        optionsButton.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
+        optionsButton.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -5).isActive = true
+        optionsButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true
         optionsButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
         optionsButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        optionsButton.addTarget(self, action: #selector(optionsListener), for: .touchUpInside)
 
         showCaseImageView.topAnchor.constraint(equalTo: profileImageButton.bottomAnchor, constant: 10).isActive = true
         showCaseImageView.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
@@ -156,8 +175,8 @@ class NewsCell: UICollectionViewCell {
         title.leftAnchor.constraint(equalTo: profileImageButton.leftAnchor, constant: 5).isActive = true
         
         content.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 10).isActive = true
-        content.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
-        content.rightAnchor.constraint(equalTo: rightAnchor, constant:  -10).isActive = true
+        content.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10).isActive = true
+        content.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant:  -10).isActive = true
 
         topSeparatorView.topAnchor.constraint(equalTo: content.bottomAnchor, constant: 10).isActive = true
         topSeparatorView.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
@@ -165,13 +184,32 @@ class NewsCell: UICollectionViewCell {
 
         stackView.addArrangedSubview(shareButton)
         stackView.addArrangedSubview(commentButton)
+        shareButton.addTarget(self, action: #selector(shareListener), for: .touchUpInside)
+        commentButton.addTarget(self, action: #selector(commentListener), for: .touchUpInside)
 
         stackView.topAnchor.constraint(equalTo: topSeparatorView.bottomAnchor, constant: 4).isActive = true
-        stackView.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
-        stackView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        stackView.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
+        stackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        
+        if let lastSubview = contentView.subviews.last {
+            contentView.bottomAnchor.constraint(equalTo: lastSubview.bottomAnchor, constant: 10).isActive = true
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    @objc func optionsListener() {
+        btnTapAction?(TYPE_OPTIONS)
+    }
+    
+    @objc func commentListener() {
+        btnTapAction?(TYPE_COMMENT)
+    }
+    
+    @objc func shareListener() {
+        btnTapAction?(TYPE_SHARE)
+    }
+
 }
