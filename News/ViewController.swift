@@ -29,14 +29,14 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         // Do any additional setup after loading the view.
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layout.itemSize = CGSize(width: view.frame.width, height: 700)
+        layout.itemSize = CGSize(width: view.frame.width, height: 510)
 
         collectionview = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         collectionview.dataSource = self
         collectionview.delegate = self
         collectionview.register(NewsCell.self, forCellWithReuseIdentifier: cellId)
         collectionview.showsVerticalScrollIndicator = false
-        collectionview.backgroundColor = UIColor.white
+        collectionview.backgroundColor = UIColor.init(red: 226, green: 213, blue: 213, alpha: 1)
         self.view.addSubview(collectionview)
 
 

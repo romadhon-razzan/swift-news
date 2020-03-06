@@ -10,15 +10,14 @@ import UIKit
 class NewsCell: UICollectionViewCell {
     let profileImageButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor.white
+        button.backgroundColor = UIColor.darkGray
         button.layer.cornerRadius = 18
         button.clipsToBounds = true
-        button.setImage(UIImage(named: "Profile"), for: UIControl.State.normal)
+        button.setImage(UIImage(named: "author"), for: UIControl.State.normal)
 
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
 
     let nameLabel: UILabel = {
         let label = UILabel()
@@ -29,100 +28,75 @@ class NewsCell: UICollectionViewCell {
         return label
     }()
 
-
     let distanceLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.lightGray
         label.font = UIFont.systemFont(ofSize: 14)
-        label.text = "30000 miles"
+        label.text = "1 hour ago"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
+    let optionsButton: UIButton = {
+        let button = UIButton()
+        button.clipsToBounds = true
+        button.setImage(UIImage(named: "more"), for: UIControl.State.normal)
 
-    let pricePerHourLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = UIColor.darkGray
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.text = "$40/hour"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
-
-
-
-    let ratingLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = UIColor.lightGray
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.text = "4.9+"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
 
     let showCaseImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = UIColor.white
-        imageView.image = UIImage(named: "Profile")
+        imageView.backgroundColor = UIColor.lightGray
+        imageView.image = UIImage(named: "react")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
 
-
-    let likesLabel: UILabel = {
+    let title: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.lightGray
+        label.textColor = UIColor.black
+        label.font = UIFont(name:"HelveticaNeue-Bold", size: 16)
+        label.text = "Pemrograman Web using React Js is the best"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let content: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.black
         label.font = UIFont.systemFont(ofSize: 14)
-        label.text = "424 likes"
+        label.numberOfLines = 3
+        label.text = "React makes it painless to create interactive UIs. Design simple views for each state in your application, and React will efficiently update and render just the right components when your data changes. Declarative views make your code more predictable and easier to debug."
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-
     let topSeparatorView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.darkGray
+        view.backgroundColor = UIColor.lightGray
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
-    let bottomSeparatorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.darkGray
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
-
-    let likeButton: UIButton = {
+    let shareButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Like", for:  UIControl.State.normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
-        button.setTitleColor(UIColor.darkGray, for:  UIControl.State.normal)
+        button.setTitle("Share", for:  UIControl.State.normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        button.setTitleColor(UIColor.blue, for:  UIControl.State.normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
-    let hireButton: UIButton = {
+   
+    let commentButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Hire", for: UIControl.State.normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
-        button.setTitleColor(UIColor.darkGray, for:  UIControl.State.normal)
+        button.setTitle("10 Comment", for:  UIControl.State.normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        button.setTitleColor(UIColor.blue, for:  UIControl.State.normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
-
-    let messageButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Message", for:  UIControl.State.normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
-        button.setTitleColor(UIColor.darkGray, for:  UIControl.State.normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-
-
 
     let stackView: UIStackView = {
         let sv = UIStackView()
@@ -133,36 +107,26 @@ class NewsCell: UICollectionViewCell {
         return sv
     }()
 
-
-
-
     override init(frame: CGRect) {
         super.init(frame: frame)
-
         addViews()
     }
 
-
-
-
     func addViews(){
-        backgroundColor = UIColor.black
+        backgroundColor = UIColor.white
 
         addSubview(profileImageButton)
         addSubview(nameLabel)
         addSubview(distanceLabel)
-        addSubview(pricePerHourLabel)
-        addSubview(ratingLabel)
+        addSubview(optionsButton)
         addSubview(showCaseImageView)
-        addSubview(likesLabel)
-
+        addSubview(title)
+        addSubview(content)
         addSubview(topSeparatorView)
-        addSubview(bottomSeparatorView)
 
         // Stack View
-        addSubview(likeButton)
-        addSubview(messageButton)
-        addSubview(hireButton)
+        addSubview(shareButton)
+        addSubview(commentButton)
         addSubview(stackView)
 
 
@@ -173,50 +137,41 @@ class NewsCell: UICollectionViewCell {
 
         nameLabel.leftAnchor.constraint(equalTo: profileImageButton.rightAnchor, constant: 5).isActive = true
         nameLabel.centerYAnchor.constraint(equalTo: profileImageButton.centerYAnchor, constant: -8).isActive = true
-        nameLabel.rightAnchor.constraint(equalTo: pricePerHourLabel.leftAnchor).isActive = true
+        nameLabel.rightAnchor.constraint(equalTo: optionsButton.leftAnchor).isActive = true
 
         distanceLabel.leftAnchor.constraint(equalTo: nameLabel.leftAnchor).isActive = true
         distanceLabel.centerYAnchor.constraint(equalTo: profileImageButton.centerYAnchor, constant: 8).isActive = true
-        distanceLabel.widthAnchor.constraint(equalToConstant: 300)
-
-        pricePerHourLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
-        pricePerHourLabel.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor).isActive = true
-
+        
         // Distance depeneded on the priceLabel and distance Label
-        ratingLabel.rightAnchor.constraint(equalTo: pricePerHourLabel.rightAnchor).isActive = true
-        ratingLabel.centerYAnchor.constraint(equalTo: distanceLabel.centerYAnchor).isActive = true
+        optionsButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -5).isActive = true
+        optionsButton.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
+        optionsButton.widthAnchor.constraint(equalToConstant: 24).isActive = true
+        optionsButton.heightAnchor.constraint(equalToConstant: 24).isActive = true
 
         showCaseImageView.topAnchor.constraint(equalTo: profileImageButton.bottomAnchor, constant: 10).isActive = true
         showCaseImageView.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
-        showCaseImageView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 20).isActive = true
+        showCaseImageView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width-100).isActive = true
 
-        likesLabel.topAnchor.constraint(equalTo: showCaseImageView.bottomAnchor, constant: 10).isActive = true
-        likesLabel.leftAnchor.constraint(equalTo: profileImageButton.leftAnchor).isActive = true
+        title.topAnchor.constraint(equalTo: showCaseImageView.bottomAnchor, constant: 10).isActive = true
+        title.leftAnchor.constraint(equalTo: profileImageButton.leftAnchor, constant: 5).isActive = true
+        
+        content.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 10).isActive = true
+        content.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+        content.rightAnchor.constraint(equalTo: rightAnchor, constant:  -10).isActive = true
 
-        topSeparatorView.topAnchor.constraint(equalTo: likesLabel.bottomAnchor, constant: 10).isActive = true
+        topSeparatorView.topAnchor.constraint(equalTo: content.bottomAnchor, constant: 10).isActive = true
         topSeparatorView.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
         topSeparatorView.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
 
-        stackView.addArrangedSubview(likeButton)
-        stackView.addArrangedSubview(hireButton)
-        stackView.addArrangedSubview(messageButton)
+        stackView.addArrangedSubview(shareButton)
+        stackView.addArrangedSubview(commentButton)
 
         stackView.topAnchor.constraint(equalTo: topSeparatorView.bottomAnchor, constant: 4).isActive = true
         stackView.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
         stackView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-
-        bottomSeparatorView.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 4).isActive = true
-        bottomSeparatorView.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
-        bottomSeparatorView.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
-
-
     }
-
-
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-
 }
